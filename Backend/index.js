@@ -19,6 +19,8 @@ app.get('/test', (req, res) => {});
 
 app.post('/', async(req, res) => {
 
+    console.log(req.body)
+
     if(!currentPrompt){
         currentPrompt = startingPrompt+req.body.question+"\nAI:"
     }
