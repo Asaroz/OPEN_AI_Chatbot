@@ -18,7 +18,7 @@ function App() {
   const initialArray = []
   const [chat,setChat] = useState (initialArray)
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  // const [answer, setAnswer] = useState("");
 
   const send = (e) => {
     e.preventDefault()
@@ -27,9 +27,10 @@ function App() {
         question: question,
       })
       .then(function (response) {
-        setAnswer(response.data);
+        console.log(response.data)
+        // setAnswer(response.data);
         setChat( ()=> {
-          chat.push({You: "You: "+question, Bot:answer})
+          chat.push({You: "You: "+question, Bot:response.data})
           console.log(chat);
           return chat
         })
@@ -50,7 +51,7 @@ function App() {
         value= {chat.map(x=>{
           const q = x.You;
           const a = x.Bot;
-          return q + "\n" + a
+          return q + "\n" + a +"\n"
         })}
       >
         
