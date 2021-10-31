@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Login() {
+
+export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const setUser = props.setUser
 
   const axiosE = axios.create({
     baseURL: "http://localhost:4000",
@@ -19,7 +21,9 @@ export default function Login() {
         password: password,
       })
       .then((response) => {
-        console.log(response);
+        if(response.data.succes){
+          setUser(response.data.user)
+        }
       })
       .catch(function (error) {
         console.log(error);

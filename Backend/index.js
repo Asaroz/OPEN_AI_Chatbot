@@ -1,13 +1,16 @@
 import express from "express";
-import mongoose from "mongoose";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai-api';
+import {connect} from "./libs/database.js"
+import {User} from "./models/userSchema.js"
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 dotenv.config();
+await connect()
+
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const openAI = new OpenAI(OPENAI_API_KEY)
@@ -15,9 +18,20 @@ const startingPrompt = "The following is a conversation with an AI assistant. Th
 let historyArray = [{ question: "Hello, who are you?", answer: "I am an AI created by OpenAI. What do you whant?" }]
 
 
+app.post('/register', async(req,res)=>{
+    console.log(req.body)
+})
+
 app.post('/login', async(req, res) => {
     console.log(req.body)
-    res.send("eat a dick");
+
+    const user = await User.login(req.body)
+    console.log(user)
+    res.send({
+        succes:true,
+        user:user,
+        token:"this is a token"
+    })
 })
 
 app.post('/', async(req, res) => {

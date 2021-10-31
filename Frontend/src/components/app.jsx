@@ -6,6 +6,7 @@ import Login from "./login";
 function App() {
 
 const [user,setUser]= useState()
+  console.log(user)
     return (
         <div className="wrapper">
         <h1>ChatBot</h1>
