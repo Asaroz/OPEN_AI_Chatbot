@@ -1,14 +1,16 @@
 import { React, useState } from "react";
-import axios from 'axios';
-import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import './chat.css'
+import axios from "axios";
+import FormControl from "react-bootstrap/FormControl";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
+import "./chat.css";
 
 const instance = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: "http://localhost:4000",
   timeout: 10000,
-  headers: { 'X-Custom-Header': 'foobar' }
+  headers: { "X-Custom-Header": "foobar" },
 });
 
 function Chat(props) {
@@ -17,39 +19,52 @@ function Chat(props) {
     setQuestion(e.target.value);
   };
 
-  const initialArray = []
-  const [chat,setChat] = useState (initialArray)
+  const initialArray = [];
+  const [chat, setChat] = useState(initialArray);
   const [question, setQuestion] = useState("");
   // const [answer, setAnswer] = useState("");
 
   const send = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     instance
       .post("/", {
         question: question,
-        token:token
+        token:token,
+        mood:mood
       })
       .then(function (response) {
-        console.log(response.data)
+        console.log(response.data);
         // setAnswer(response.data);
-        setChat( ()=> {
-          chat.push({You: "You: "+question, Bot:response.data})
+        setChat(() => {
+          chat.push({ You: "You: " + question, Bot: response.data });
           console.log(chat);
-          return chat
-        })
-       setQuestion("")
+          return chat;
+        });
+        setQuestion("");
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
+  const [mood, setMood] = useState("");
+  const handleMood = (e) => {
+    console.log(e);
+    setMood(e);
+    
+  };
 
   return (
     <div>
+      <DropdownButton variant="info" title="Select the Robot's mood" onSelect={handleMood}>
+        <Dropdown.Item className="dropdown" eventKey="happy and likes humans.">Happy</Dropdown.Item>
+        <Dropdown.Item eventKey="rude and dislikes humans.">Rude</Dropdown.Item>
+        <Dropdown.Item eventKey="crazy and thinks its a wizard.">Crazy Wizard</Dropdown.Item>
+      </DropdownButton>
+
       <textarea
         className="form-control"
-        className= "chatbox"
+        className="chatbox"
         readOnly
         rows="20"
         value= {chat.map(x=>{
@@ -66,9 +81,14 @@ function Chat(props) {
           placeholder="Chat here"
           aria-label="Recipient's username"
           aria-describedby="basic-addon2"
-          value = {question}
+          value={question}
         />
-        <Button className= "button" type="submit" variant="outline-secondary" id="button-addon2">
+        <Button
+          className="button"
+          type="submit"
+          variant="outline-secondary"
+          id="button-addon2"
+        >
           Send
         </Button>
       </Form>
