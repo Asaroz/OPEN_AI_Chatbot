@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Chat from "./chat";
 import Login from "./login";
+import './app.css'
 
 function App() {
 

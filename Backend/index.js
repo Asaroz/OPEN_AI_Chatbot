@@ -19,11 +19,11 @@ const startingPrompt = "The following is a conversation with an AI assistant. Th
 let historyArray = [{ question: "Hello, who are you?", answer: "I am an AI created by OpenAI. What do you whant?" }]
 
 
-app.post('/register', async(req,res)=>{
+app.post('/register', async(req, res) => {
     const user = await User.register(req.body);
 
     if (!user) {
-      return res.status(400).json({ success: false });
+        return res.status(400).json({ success: false });
     }
 
     res.status(201).json({ success: true });
@@ -34,7 +34,7 @@ app.post('/login', async(req, res) => {
 
     if (!user) {
         return res.status(400).json({ user });
-      }
+    }
 
     const token = jwt.sign({_id:user._id},process.env.SECRET)
 
@@ -95,7 +95,7 @@ app.post('/',checkLogin, async(req, res) => {
     console.log("_______")
     console.log(gptResponse.data.choices[0].text)
 
-    historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text.replace("AI:","") })
+    historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text.replace("AI:", "") })
 
     res.send(gptResponse.data.choices[0].text);
 
