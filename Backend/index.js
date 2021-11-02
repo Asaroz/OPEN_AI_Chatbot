@@ -2,8 +2,8 @@ import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai-api';
-import {connect} from "./libs/database.js"
-import {User} from "./models/userSchema.js"
+import { connect } from "./libs/database.js"
+import { User } from "./models/userSchema.js"
 
 const app = express();
 app.use(cors());
@@ -18,8 +18,18 @@ const startingPrompt = "The following is a conversation with an AI assistant. Th
 let historyArray = [{ question: "Hello, who are you?", answer: "I am an AI created by OpenAI. What do you whant?" }]
 
 
-app.post('/register', async(req,res)=>{
+app.post('/register', async(req, res) => {
+    const user = await User.register(req.body);
     console.log(req.body)
+
+    if (!user) {
+        return res.status(400).json({ success: false });
+    }
+    res.status(201).json({
+        success: true,
+        user: user,
+        token: "this is a token"
+    });
 })
 
 app.post('/login', async(req, res) => {
@@ -28,9 +38,9 @@ app.post('/login', async(req, res) => {
     const user = await User.login(req.body)
     console.log(user)
     res.send({
-        succes:true,
-        user:user,
-        token:"this is a token"
+        succes: true,
+        user: user,
+        token: "this is a token"
     })
 })
 

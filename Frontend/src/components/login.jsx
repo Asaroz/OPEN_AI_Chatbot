@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import './login.css';
 
 
 export default function Login(props) {
@@ -30,6 +31,22 @@ export default function Login(props) {
       });
   }
 
+  function handleRegister(){
+  axiosE.post("/register", {
+    email: email,
+    password: password,
+  })
+  .then((response) => {
+    console.log(response);
+    if(response.data.succes){
+      setUser(response.data.user)
+    }
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -51,7 +68,8 @@ export default function Login(props) {
         />
       </label>
       <div>
-        <button type="submit">Login</button>
+        <button className="button" type="submit">Login</button>
+        <button className="button" type="register" onClick={handleRegister}>Register</button>
       </div>
     </form>
   );
