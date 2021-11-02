@@ -1,3 +1,4 @@
+import { compare } from "bcrypt";
 import mongoose from "mongoose"
 
 const required = true;
@@ -9,9 +10,24 @@ const userSchema = new Schema({
     password:{type:String,required,minlength:5}
 })
 
+
+
+userSchema.statics.register = async(userData)=>{
+    try{
+        userData.password = await hash()
+    }
+}
+
+
 userSchema.statics.login = async(userData) =>{
     const user = await User.findOne({email: userData.email})
     if(!user){
+        return null
+    }
+
+    const succes = await compare(userData.password,user.password)
+
+    if(!succes){
         return null
     }
 

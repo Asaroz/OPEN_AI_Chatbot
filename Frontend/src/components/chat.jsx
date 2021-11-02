@@ -24,7 +24,7 @@ function Chat() {
     e.preventDefault()
     instance
       .post("/", {
-        question: question,
+        question: question
       })
       .then(function (response) {
         console.log(response.data)
