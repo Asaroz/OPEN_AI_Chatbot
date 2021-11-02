@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Chat from "./chat";
 import Login from "./login";
+import './app.css'
 
 function App() {
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import './chat.css'
 
 const instance = axios.create({
   baseURL: 'http://localhost:4000',
@@ -46,6 +47,7 @@ function Chat() {
     <div>
       <textarea
         className="form-control"
+        className= "chatbox"
         readOnly
         rows="20"
         value= {chat.map(x=>{
@@ -64,7 +66,7 @@ function Chat() {
           aria-describedby="basic-addon2"
           value = {question}
         />
-        <Button type="submit" variant="outline-secondary" id="button-addon2">
+        <Button className= "button" type="submit" variant="outline-secondary" id="button-addon2">
           Send
         </Button>
       </Form>

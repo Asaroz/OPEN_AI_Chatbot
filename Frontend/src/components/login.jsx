@@ -38,8 +38,9 @@ export default function Login(props) {
   })
   .then((response) => {
     console.log(response);
-    if(response.data.succes){
-      setUser(response.data.user)
+    if(response.data.success){
+      console.log('whats good');
+     alert("Registration succesful, please login now")
     }
   })
   .catch(function (error) {
@@ -47,12 +48,12 @@ export default function Login(props) {
   });
 }
 
-  return (
-    <form onSubmit={handleSubmit}>
+  return (<div> <form className="form" onSubmit={handleSubmit}>
       <label>
         <p>Username</p>
         <input
-          // type="email"
+        className="input"
+          type="email"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -62,6 +63,7 @@ export default function Login(props) {
       <label>
         <p>Password</p>
         <input
+        className="input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -69,8 +71,10 @@ export default function Login(props) {
       </label>
       <div>
         <button className="button" type="submit">Login</button>
-        <button className="button" type="register" onClick={handleRegister}>Register</button>
+        
       </div>
     </form>
+    <button className="button"  onClick={handleRegister}>Register</button></div>
+   
   );
 }
