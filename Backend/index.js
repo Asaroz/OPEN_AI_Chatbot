@@ -2,8 +2,8 @@ import express from "express";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai-api';
-import {connect} from "./libs/database.js"
-import {User} from "./models/userSchema.js"
+import { connect } from "./libs/database.js"
+import { User } from "./models/userSchema.js"
 import jwt from "jsonwebtoken"
 
 const app = express();
@@ -36,32 +36,32 @@ app.post('/login', async(req, res) => {
         return res.status(400).json({ user });
     }
 
-    const token = jwt.sign({_id:user._id},process.env.SECRET)
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET)
 
-    res.json({user,token})
+    res.json({ user, token })
 })
 
 const checkLogin = (req, res, next) => {
-    
+
     const token = req.body.token
 
-    console.log("TOKEN---" , token)
-    
+    console.log("TOKEN---", token)
+
     jwt.verify(token, process.env.SECRET, function(err, decoded) {
-      if (err) {
-        console.log("Error verifying JWT", err.message);
-        return res.sendStatus(401);
-      }
-      
-      next();
+        if (err) {
+            console.log("Error verifying JWT", err.message);
+            return res.sendStatus(401);
+        }
+
+        next();
     });
-  };
+};
 
 
 
 
 
-app.post('/',checkLogin, async(req, res) => {
+app.post('/', checkLogin, async(req, res) => {
 
     let currentPrompt = ""
 

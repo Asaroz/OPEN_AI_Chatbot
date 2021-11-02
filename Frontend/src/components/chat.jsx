@@ -29,7 +29,8 @@ function Chat(props) {
     instance
       .post("/", {
         question: question,
-        token:token
+        token:token,
+        mood:mood
       })
       .then(function (response) {
         console.log(response.data);
@@ -56,9 +57,9 @@ function Chat(props) {
   return (
     <div>
       <DropdownButton variant="info" title="Select the Robot's mood" onSelect={handleMood}>
-        <Dropdown.Item className="dropdown" eventKey="happy">Happy and likes humans</Dropdown.Item>
-        <Dropdown.Item eventKey="rude">Rude and dislikes humans</Dropdown.Item>
-        <Dropdown.Item eventKey="robotic">A robotic robot</Dropdown.Item>
+        <Dropdown.Item className="dropdown" eventKey="happy and likes humans.">Happy</Dropdown.Item>
+        <Dropdown.Item eventKey="rude and dislikes humans.">Rude</Dropdown.Item>
+        <Dropdown.Item eventKey="crazy and thinks its a wizard.">Crazy Wizard</Dropdown.Item>
       </DropdownButton>
 
       <textarea
