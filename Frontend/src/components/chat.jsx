@@ -10,7 +10,8 @@ const instance = axios.create({
   headers: { 'X-Custom-Header': 'foobar' }
 });
 
-function Chat() {
+function Chat(props) {
+  const token = props.token
   const handleChange = (e) => {
     setQuestion(e.target.value);
   };
@@ -24,7 +25,8 @@ function Chat() {
     e.preventDefault()
     instance
       .post("/", {
-        question: question
+        question: question,
+        token:token
       })
       .then(function (response) {
         console.log(response.data)
@@ -49,10 +51,10 @@ function Chat() {
         readOnly
         rows="20"
         value= {chat.map(x=>{
-          const q = x.You;
-          const a = x.Bot;
-          return q + "\n" + a +"\n"
-        })}
+            const q = x.You;
+            const a = x.Bot;
+            return q + "\n" + a +"\n"}).join("")
+      }
       >
         
       </textarea>

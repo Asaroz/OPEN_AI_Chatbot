@@ -5,7 +5,9 @@ import axios from "axios";
 export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
   const setUser = props.setUser
+  const setToken = props.setToken
 
   const axiosE = axios.create({
     baseURL: "http://localhost:4000",
@@ -21,8 +23,9 @@ export default function Login(props) {
         password: password,
       })
       .then((response) => {
-        if(response.data.succes){
+        if(response.data.token){
           setUser(response.data.user)
+          setToken(response.data.token)
         }
       })
       .catch(function (error) {
