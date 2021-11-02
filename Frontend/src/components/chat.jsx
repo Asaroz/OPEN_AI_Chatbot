@@ -48,7 +48,7 @@ function Chat(props) {
       });
   };
 
-  const [mood, setMood] = useState("");
+  const [mood, setMood] = useState("happy and likes humans");
   const handleMood = (e) => {
     console.log(e);
     setMood(e);

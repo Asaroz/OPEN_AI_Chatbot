@@ -60,23 +60,25 @@ const checkLogin = (req, res, next) => {
 
 
 app.post('/', checkLogin, async(req, res) => {
-    let startingPrompt = "The following is a conversation with an AI assistant. The AI assistant is "+req.body.mood +"\n \n"
+    console.log(req.body)
+    let startingPrompt = "The following is a conversation between a human with an AI assistant. The AI assistant is "+req.body.mood +".\n \n"
 
     let currentPrompt = ""
     currentPrompt = startingPrompt
     if (historyArray.length < 4) {
         
         historyArray.map((data) => {
-            currentPrompt = currentPrompt + "You: " + data.question + "\n" + "AI: " + data.answer + "\n"
+            currentPrompt = currentPrompt + "Human: " + data.question + "\n" + "AI: " + data.answer 
         })
     } else {
         for (let i = historyArray.length - 3; i < historyArray.length; i++) {
             const data = historyArray[i]
-            currentPrompt = currentPrompt + "You: " + data.question + "\n" + "AI: " + data.answer + "\n"
+            currentPrompt = currentPrompt + "Human: " + data.question + "\n" + "AI: " + data.answer 
         }
     }
-    currentPrompt = currentPrompt + "You: " + req.body.question + "\n"
+    currentPrompt = currentPrompt + "Human: " + req.body.question + "\n" +"AI:"
 
+    console.log(currentPrompt)
 
     const gptResponse = await openAI.complete({
         engine: 'davinci',
@@ -86,13 +88,14 @@ app.post('/', checkLogin, async(req, res) => {
         topP: 1,
         presencePenalty: 0.6,
         frequencyPenalty: 0,
-        stop: ["\n", " Human:"]
+        stop: ["AI:","Human:"]
     });
 
+    console.log("______________")
+    console.log(gptResponse.data.choices[0].text)
+    historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text})
 
-    historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text.replace("AI:", "") })
-
-    res.send(gptResponse.data.choices[0].text);
+    res.send("AI:"+ gptResponse.data.choices[0].text.replace("\n",""));
 
 })
 
