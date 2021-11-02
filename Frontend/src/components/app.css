@@ -1,8 +1,8 @@
 .wrapper {
     display: block;
-    margin: auto;
-    margin-top: 5%;
+    margin: 100px auto;
     width: 20%;
+    height: 10%;
     border: 4px solid black;
     border-radius: 12px;
     text-align: center;

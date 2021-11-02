@@ -1,4 +1,4 @@
-import { React, useState ,useRef,useEffect} from "react";
+import { React, useState, useRef, useEffect } from "react";
 import axios from "axios";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -22,8 +22,7 @@ function Chat(props) {
   const initialArray = [];
   const [chat, setChat] = useState(initialArray);
   const [question, setQuestion] = useState("");
-  const [currentMood,setCurrentMood] = useState("Happy Bot")
-  // const [answer, setAnswer] = useState("");
+  const [currentMood, setCurrentMood] = useState("Happy Bot");
 
   const send = (e) => {
     e.preventDefault();
@@ -34,8 +33,6 @@ function Chat(props) {
         mood: mood,
       })
       .then(function (response) {
-        console.log(response.data);
-        // setAnswer(response.data);
         setChat(() => {
           chat.push({ You: "You: " + question, Bot: response.data });
           console.log(chat);
@@ -50,35 +47,40 @@ function Chat(props) {
 
   const [mood, setMood] = useState("");
   const handleMood = (e) => {
-    console.log(e);
     setMood(e);
   };
-  const handleCurrentMood = (e)=>{
-    if ((e == "happy and likes humans")) {
-      setCurrentMood("Happy Bot")
-    } else if ((e == "rude and dislikes humans")) {
-      setCurrentMood("Rude Bot")
-    } else if ((e == "crazy and thinks its a wizard")) {
-      setCurrentMood("Crazy Wizard Bot")
+  const handleCurrentMood = (e) => {
+    if (e == "happy and likes humans") {
+      setCurrentMood("Happy Bot");
+    } else if (e == "rude and dislikes humans") {
+      setCurrentMood("Rude Bot");
+    } else if (e == "crazy and thinks its a wizard") {
+      setCurrentMood("Crazy Wizard Bot");
     }
-  }
-  const textArea = useRef()
+  };
+  const textArea = useRef();
   useEffect(() => {
     const area = textArea.current;
     area.scrollTop = area.scrollHeight;
   });
 
-
-
   return (
-    <div>
-      <DropdownButton variant="dark" title="Robot's mood" onSelect={(e)=>{
-        handleMood(e)
-        handleCurrentMood(e)
-      }}>
-        <Dropdown.Item className="dropdown" eventKey="happy and likes humans">Happy</Dropdown.Item>
+    <div className= "chatWrap">
+      <DropdownButton
+        variant="dark"
+        title="Robot's mood"
+        onSelect={(e) => {
+          handleMood(e);
+          handleCurrentMood(e);
+        }}
+      >
+        <Dropdown.Item className="dropdown" eventKey="happy and likes humans">
+          Happy
+        </Dropdown.Item>
         <Dropdown.Item eventKey="rude and dislikes humans">Rude</Dropdown.Item>
-        <Dropdown.Item eventKey="crazy and thinks its a wizard">Crazy Wizard</Dropdown.Item>
+        <Dropdown.Item eventKey="crazy and thinks its a wizard">
+          Crazy Wizard
+        </Dropdown.Item>
       </DropdownButton>
       <div>Current mood: {currentMood}</div>
       <textarea
@@ -86,7 +88,7 @@ function Chat(props) {
         className="form-control"
         className="chatbox"
         readOnly
-        rows="20"
+        rows="10"
         value={chat
           .map((x) => {
             const q = x.You;
