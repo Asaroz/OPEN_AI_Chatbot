@@ -15,7 +15,6 @@ await connect()
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const openAI = new OpenAI(OPENAI_API_KEY)
-const startingPrompt = "The following is a conversation with an AI assistant. The assistant is rude and doesn't like the human.\n\n"
 let historyArray = [{ question: "Hello, who are you?", answer: "I am an AI created by OpenAI. What do you whant?" }]
 
 
@@ -45,7 +44,6 @@ const checkLogin = (req, res, next) => {
 
     const token = req.body.token
 
-    console.log("TOKEN---", token)
 
     jwt.verify(token, process.env.SECRET, function(err, decoded) {
         if (err) {
@@ -62,24 +60,22 @@ const checkLogin = (req, res, next) => {
 
 
 app.post('/', checkLogin, async(req, res) => {
+    let startingPrompt = "The following is a conversation with an AI assistant. The AI assistant is "+req.body.mood +"\n \n"
 
     let currentPrompt = ""
-
+    currentPrompt = startingPrompt
     if (historyArray.length < 4) {
-        console.log(historyArray)
-        currentPrompt = startingPrompt
+        
         historyArray.map((data) => {
             currentPrompt = currentPrompt + "You: " + data.question + "\n" + "AI: " + data.answer + "\n"
         })
     } else {
         for (let i = historyArray.length - 3; i < historyArray.length; i++) {
-            console.log("test")
             const data = historyArray[i]
             currentPrompt = currentPrompt + "You: " + data.question + "\n" + "AI: " + data.answer + "\n"
         }
     }
     currentPrompt = currentPrompt + "You: " + req.body.question + "\n"
-    console.log(currentPrompt)
 
 
     const gptResponse = await openAI.complete({
@@ -92,8 +88,7 @@ app.post('/', checkLogin, async(req, res) => {
         frequencyPenalty: 0,
         stop: ["\n", " Human:"]
     });
-    console.log("_______")
-    console.log(gptResponse.data.choices[0].text)
+
 
     historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text.replace("AI:", "") })
 
