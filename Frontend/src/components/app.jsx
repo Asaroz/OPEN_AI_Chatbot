@@ -7,7 +7,7 @@ function App() {
 
 const [user,setUser]= useState()
 const [token, setToken]= useState("");
-  console.log(user)
+  
     return (
         <div className="wrapper">
         <h1>ChatBot</h1>
