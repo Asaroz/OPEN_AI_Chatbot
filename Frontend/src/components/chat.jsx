@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState ,useRef,useEffect} from "react";
 import axios from "axios";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
@@ -22,6 +22,7 @@ function Chat(props) {
   const initialArray = [];
   const [chat, setChat] = useState(initialArray);
   const [question, setQuestion] = useState("");
+  const [currentMood,setCurrentMood] = useState("Happy Bot")
   // const [answer, setAnswer] = useState("");
 
   const send = (e) => {
@@ -51,18 +52,36 @@ function Chat(props) {
   const handleMood = (e) => {
     console.log(e);
     setMood(e);
-    
+
   };
+  const handleCurrentMood = (e)=>{
+    if ((e == "happy and likes humans")) {
+      setCurrentMood("Happy Bot")
+    } else if ((e == "rude and dislikes humans")) {
+      setCurrentMood("Rude Bot")
+    } else if ((e == "crazy and thinks its a wizard")) {
+      setCurrentMood("Crazy Wizard Bot")
+    }
+  }
+  const textArea = useRef()
+  useEffect(() => {
+    const area = textArea.current;
+    area.scrollTop = area.scrollHeight;
+  });
 
   return (
     <div>
-      <DropdownButton variant="info" title="Select the Robot's mood" onSelect={handleMood}>
-        <Dropdown.Item className="dropdown" eventKey="happy and likes humans.">Happy</Dropdown.Item>
-        <Dropdown.Item eventKey="rude and dislikes humans.">Rude</Dropdown.Item>
-        <Dropdown.Item eventKey="crazy and thinks its a wizard.">Crazy Wizard</Dropdown.Item>
+      <DropdownButton variant="dark" title="Robot's mood" onSelect={(e)=>{
+        handleMood(e)
+        handleCurrentMood(e)
+      }}>
+        <Dropdown.Item className="dropdown" eventKey="happy and likes humans">Happy</Dropdown.Item>
+        <Dropdown.Item eventKey="rude and dislikes humans">Rude</Dropdown.Item>
+        <Dropdown.Item eventKey="crazy and thinks its a wizard">Crazy Wizard</Dropdown.Item>
       </DropdownButton>
-
+      <div>Current mood: {currentMood}</div>
       <textarea
+        ref={textArea}
         className="form-control"
         className="chatbox"
         readOnly
