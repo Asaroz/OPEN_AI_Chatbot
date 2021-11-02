@@ -12,6 +12,7 @@ input {
     margin-bottom: 10px;
     cursor: pointer;
     border: 1px solid #1a202c;
+    border-radius: 12px;
     padding: 8px;
     min-width: 64px;
     background: transparent;
