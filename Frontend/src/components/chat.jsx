@@ -14,7 +14,7 @@ const instance = axios.create({
 });
 
 function Chat(props) {
-  const token = props.token
+  const token = props.token;
   const handleChange = (e) => {
     setQuestion(e.target.value);
   };
@@ -29,8 +29,8 @@ function Chat(props) {
     instance
       .post("/", {
         question: question,
-        token:token,
-        mood:mood
+        token: token,
+        mood: mood,
       })
       .then(function (response) {
         console.log(response.data);
@@ -51,15 +51,24 @@ function Chat(props) {
   const handleMood = (e) => {
     console.log(e);
     setMood(e);
-    
   };
+
+
 
   return (
     <div>
-      <DropdownButton variant="info" title="Select the Robot's mood" onSelect={handleMood}>
-        <Dropdown.Item className="dropdown" eventKey="happy and likes humans.">Happy</Dropdown.Item>
+      <DropdownButton
+        variant="info"
+        title="Select the Robot's mood"
+        onSelect={handleMood}
+      >
+        <Dropdown.Item className="dropdown" eventKey="happy and likes humans.">
+          Happy
+        </Dropdown.Item>
         <Dropdown.Item eventKey="rude and dislikes humans.">Rude</Dropdown.Item>
-        <Dropdown.Item eventKey="crazy and thinks its a wizard.">Crazy Wizard</Dropdown.Item>
+        <Dropdown.Item eventKey="crazy and thinks its a wizard.">
+          Crazy Wizard
+        </Dropdown.Item>
       </DropdownButton>
 
       <textarea
@@ -67,14 +76,14 @@ function Chat(props) {
         className="chatbox"
         readOnly
         rows="20"
-        value= {chat.map(x=>{
+        value={chat
+          .map((x) => {
             const q = x.You;
             const a = x.Bot;
-            return q + "\n" + a +"\n"}).join("")
-      }
-      >
-        
-      </textarea>
+            return q + "\n" + a + "\n";
+          })
+          .join("")}
+      ></textarea>
       <Form className="mb-3" onSubmit={send}>
         <FormControl
           onChange={handleChange}
