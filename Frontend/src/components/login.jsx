@@ -35,7 +35,7 @@ export default function Login(props) {
       <label>
         <p>Username</p>
         <input
-          type="email"
+          // type="email"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);

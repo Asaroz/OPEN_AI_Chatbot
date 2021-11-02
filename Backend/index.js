@@ -19,14 +19,22 @@ let historyArray = [{ question: "Hello, who are you?", answer: "I am an AI creat
 
 
 app.post('/register', async(req,res)=>{
-    console.log(req.body)
+    const user = await User.register(req.body);
+
+    if (!user) {
+      return res.status(400).json({ success: false });
+    }
+
+    res.status(201).json({ success: true });
 })
 
 app.post('/login', async(req, res) => {
-    console.log(req.body)
-
     const user = await User.login(req.body)
-    console.log(user)
+
+    if (!user) {
+        return res.status(400).json({ user });
+      }
+
     res.send({
         succes:true,
         user:user,
@@ -35,9 +43,9 @@ app.post('/login', async(req, res) => {
 })
 
 app.post('/', async(req, res) => {
-    console.log(req.body)
+
     let currentPrompt = ""
-    console.log(historyArray.length)
+
     if (historyArray.length < 4) {
         console.log(historyArray)
         currentPrompt = startingPrompt
@@ -46,7 +54,8 @@ app.post('/', async(req, res) => {
         })
     } else {
         for (let i = historyArray.length - 3; i < historyArray.length; i++) {
-            data = historyArray[i]
+            console.log("test")
+            const data = historyArray[i]
             currentPrompt = currentPrompt + "You: " + data.question + "\n" + "AI: " + data.answer + "\n"
         }
     }
@@ -67,7 +76,7 @@ app.post('/', async(req, res) => {
     console.log("_______")
     console.log(gptResponse.data.choices[0].text)
 
-    historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text })
+    historyArray.push({ question: req.body.question, answer: gptResponse.data.choices[0].text.replace("AI:","") })
 
     res.send(gptResponse.data.choices[0].text);
 

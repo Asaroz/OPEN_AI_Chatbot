@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+import { compare,hash } from "../libs/crypto.js";
 import mongoose from "mongoose"
 
 const required = true;
@@ -14,8 +14,16 @@ const userSchema = new Schema({
 
 userSchema.statics.register = async(userData)=>{
     try{
-        userData.password = await hash()
-    }
+        userData.password = await hash(userData.password)
+        return await User.create(userData)
+    } catch (error){
+        if (error.message.indexOf("email") !== -1) {
+            console.error("Error registering user (email)");
+          } else {
+            console.error(error.message);
+          }
+          return null;
+        }
 }
 
 
