@@ -13,7 +13,8 @@ const instance = axios.create({
   headers: { "X-Custom-Header": "foobar" },
 });
 
-function Chat() {
+function Chat(props) {
+  const token = props.token
   const handleChange = (e) => {
     setQuestion(e.target.value);
   };
@@ -28,6 +29,7 @@ function Chat() {
     instance
       .post("/", {
         question: question,
+        token:token
       })
       .then(function (response) {
         console.log(response.data);
@@ -64,12 +66,14 @@ function Chat() {
         className="chatbox"
         readOnly
         rows="20"
-        value={chat.map((x) => {
-          const q = x.You;
-          const a = x.Bot;
-          return q + "\n" + a + "\n";
-        })}
-      ></textarea>
+        value= {chat.map(x=>{
+            const q = x.You;
+            const a = x.Bot;
+            return q + "\n" + a +"\n"}).join("")
+      }
+      >
+        
+      </textarea>
       <Form className="mb-3" onSubmit={send}>
         <FormControl
           onChange={handleChange}

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Chat from "./chat";
 import Login from "./login";
 import './app.css'
@@ -7,14 +6,15 @@ import './app.css'
 function App() {
 
 const [user,setUser]= useState()
+const [token, setToken]= useState("");
   console.log(user)
     return (
         <div className="wrapper">
         <h1>ChatBot</h1>
         {user ?
-          <Chat user={user} />
+          <Chat token={token} />
         :
-          <Login setUser={setUser} />
+          <Login setToken={setToken} setUser={setUser} />
         }
       </div>
     ); 
